@@ -51,41 +51,41 @@ def lists():
     return apology("TODO")
 
 
-@app.route("/lists", methods=["GET"])
+@app.route("/tags", methods=["GET"])
 @login_required
 def tags():
     """ Show tags of to-dos """
     return apology("TODO")
 
 
-@app.route("/lists", methods=["GET"])
+@app.route("/trash", methods=["GET"])
 @login_required
 def trash():
     """ Show trash """
     return apology("TODO")
 
 
-@app.route("/lists", methods=["GET"])
+@app.route("/change-password", methods=["GET"])
 @login_required
 def change_password():
     """ Show change password """
     return apology("TODO")
 
 
-@app.route("/lists", methods=["GET"])
+@app.route("/logout", methods=["GET"])
 @login_required
 def logout():
     """ Show logout """
     return apology("TODO")
 
 
-@app.route("/lists", methods=["GET"])
+@app.route("/register", methods=["GET"])
 def register():
     """ Show register """
     return apology("TODO")
 
 
-@app.route("/lists", methods=["GET"])
+@app.route("/login", methods=["GET"])
 def login():
     """ Show login """
     return apology("TODO")
