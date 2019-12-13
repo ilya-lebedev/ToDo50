@@ -3,6 +3,7 @@ from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required
 
@@ -79,10 +80,57 @@ def logout():
     return apology("TODO")
 
 
-@app.route("/register", methods=["GET"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    """ Show register """
-    return apology("TODO")
+    """ Register user """
+
+    # User reached route via POST (as by submiting a form via POST)
+    if request.method == "POST":
+
+        # Ensure email was submited
+        if not request.form.get("email"):
+            return apology("must provide e-mail", 400)
+
+        # Ensure username was submitted
+        elif not request.form.get("username"):
+            return apology("must provide username", 400)
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password", 400)
+
+        # Ensure confirmation was submitted
+        elif not request.form.get("confirmation"):
+            return apology("must provide confirmation of password", 400)
+
+        # Ensure password and confirmations equals
+        elif not request.form.get("password") == request.form.get("confirmation"):
+            return apology("password doesn't match", 400)
+
+        # Query database for username
+        users = db.execute("SELECT id FROM users WHERE username = :username",
+                           username = request.form.get("username"))
+
+        # Ensure username is available
+        if len(users) > 0:
+            return apology("username alredy exist", 400)
+
+        # Generate password hash
+        hash = generate_password_hash(request.form.get("password"))
+
+        # Save new user into database
+        user_id = db.execute("INSERT INTO users(username, hash, email) VALUES (:username, :hash, :email)",
+                             username = request.form.get("username"), hash = hash, email = request.form.get("email"))
+
+        # Remember which user has registered and logged in
+        session["user_id"] = user_id
+
+        # Redirect user to all to-dos page
+        return redirect("/all")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("register.html")
 
 
 @app.route("/login", methods=["GET"])
