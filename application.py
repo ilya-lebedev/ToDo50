@@ -32,6 +32,30 @@ Session(app)
 db = SQL("sqlite:///todo.db")
 
 
+@app.route("/add-todo", methods=["GET", "POST"])
+@login_required
+def add_todo():
+    """ Add new to-do """
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure title was submitted
+        if not request.form.get("title"):
+            return apology("must provide title", 400)
+
+        # Add new todo into the database
+        db.execute("INSERT INTO todos(title, description, user_id) VALUES (:title, :description, :user_id)",
+                   title = request.form.get("title"), description = request.form.get("description"), user_id = session["user_id"])
+
+        # Redirect user to all todos page
+        return redirect("/all")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("add-todo.html")
+
+
 @app.route("/all", methods=["GET"])
 @login_required
 def all():
