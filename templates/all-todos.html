@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    All todos
+{% endblock %}
+
+{% block main %}
+    <div class="row justify-content-md-center">
+        <div class="col-lg-8">
+            <div class="bs-component">
+                {% for todo in todos %}
+                    <div class="card text-white bg-secondary mb-3">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ todo["title"] }}</h4>
+                            <p class="card-text">
+                                {% set lines = todo["description"].split('\n') %}
+                                {% for line in lines %}
+                                    {{ line }} <br>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
