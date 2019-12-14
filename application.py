@@ -60,7 +60,12 @@ def add_todo():
 @login_required
 def all():
     """ Show all to-dos """
-    return apology("TODO")
+
+    # Query database for user todos
+    todos = db.execute("SELECT id, title, description FROM todos WHERE user_id = :user_id",
+                       user_id = session["user_id"])
+
+    return render_template("all-todos.html", todos = todos)
 
 
 @app.route("/change-password", methods=["GET"])
