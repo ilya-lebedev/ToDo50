@@ -59,10 +59,41 @@ def lists():
     return apology("TODO")
 
 
-@app.route("/login", methods=["GET"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    """ Show login """
-    return apology("TODO")
+    """ Log user in """
+
+    # Foget any user_id
+    session.clear()
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure username was submitted
+        if not request.form.get("username"):
+            return apology("must provide username", 403)
+
+        # Ensure password was submitted
+        elif not request.form.get("password"):
+            return apology("must provide password", 403)
+
+        # Query database for user
+        user = db.execute("SELECT id, username, hash FROM users WHERE username = :username",
+                          username = request.form.get("username"))
+
+        # Ensure username is exist and password is correct
+        if not (len(user) == 1 and check_password_hash(user[0]["hash"], request.form.get("password"))):
+            return apology("invalid username and/or password", 403)
+
+        # Remember which user has loggedin
+        session["user_id"] = user[0]["id"]
+
+        # Redirect user to all to-dos page
+        return redirect("/all")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("login.html")
 
 
 @app.route("/logout", methods=["GET"])
