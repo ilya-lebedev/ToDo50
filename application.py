@@ -32,17 +32,24 @@ Session(app)
 db = SQL("sqlite:///todo.db")
 
 
-@app.route("/")
-def index():
-    """ Show main page """
-    return render_template("index.html")
-
-
 @app.route("/all", methods=["GET"])
 @login_required
 def all():
     """ Show all to-dos """
     return apology("TODO")
+
+
+@app.route("/change-password", methods=["GET"])
+@login_required
+def change_password():
+    """ Show change password """
+    return apology("TODO")
+
+
+@app.route("/")
+def index():
+    """ Show main page """
+    return render_template("index.html")
 
 
 @app.route("/lists", methods=["GET"])
@@ -52,24 +59,9 @@ def lists():
     return apology("TODO")
 
 
-@app.route("/tags", methods=["GET"])
-@login_required
-def tags():
-    """ Show tags of to-dos """
-    return apology("TODO")
-
-
-@app.route("/trash", methods=["GET"])
-@login_required
-def trash():
-    """ Show trash """
-    return apology("TODO")
-
-
-@app.route("/change-password", methods=["GET"])
-@login_required
-def change_password():
-    """ Show change password """
+@app.route("/login", methods=["GET"])
+def login():
+    """ Show login """
     return apology("TODO")
 
 
@@ -133,9 +125,17 @@ def register():
         return render_template("register.html")
 
 
-@app.route("/login", methods=["GET"])
-def login():
-    """ Show login """
+@app.route("/tags", methods=["GET"])
+@login_required
+def tags():
+    """ Show tags of to-dos """
+    return apology("TODO")
+
+
+@app.route("/trash", methods=["GET"])
+@login_required
+def trash():
+    """ Show trash """
     return apology("TODO")
 
 
