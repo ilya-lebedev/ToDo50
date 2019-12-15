@@ -12,12 +12,15 @@
                     <div class="card text-white bg-secondary mb-3">
                         <div class="card-body">
                             <h4 class="card-title">{{ todo["title"] }}</h4>
-                            <p class="card-text">
-                                {% set lines = todo["description"].split('\n') %}
-                                {% for line in lines %}
-                                    {{ line }} <br>
-                                {% endfor %}
-                            </p>
+                            {% if todo["description"] is defined and todo["description"]|length %}
+                                <hr>
+                                <p class="card-text">
+                                    {% set lines = todo["description"].split('\n') %}
+                                    {% for line in lines %}
+                                        {{ line }} <br>
+                                    {% endfor %}
+                                </p>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
