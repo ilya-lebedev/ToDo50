@@ -1,0 +1,11 @@
+hr {
+    border: none;
+    color: #fff;
+    background-color: #fff;
+    height: 1px;
+    margin-top: 0.5rem;
+}
+
+.card-title {
+    margin-bottom: 0;
+}
