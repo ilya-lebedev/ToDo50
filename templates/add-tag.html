@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add tag
+{% endblock %}
+
+{% block main %}
+    <form action="/add-tag" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="tag_name" placeholder="Tag name" type="text">
+        </div>
+        <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+{% endblock %}
