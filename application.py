@@ -32,6 +32,42 @@ Session(app)
 db = SQL("sqlite:///todo.db")
 
 
+@app.route("/add-tag", methods=["GET", "POST"])
+@login_required
+def add_tag():
+    """ Add new tag """
+
+    # User reached route via POST (as by submittihg a form via POST)
+    if request.method == "POST":
+
+        # Ensure tag name was submitted
+        if not request.form.get("tag_name"):
+            return apology("must provide tag name", 400)
+
+        # Ensure tag name length is less than 255 symbols
+        if not len(request.form.get("tag_name")) < 255:
+            return apology("too long tag name", 400)
+
+        # Query database for tag name
+        tags = db.execute("SELECT id FROM tags WHERE user_id = :user_id AND tag_name = :tag_name",
+                          user_id = session["user_id"], tag_name = request.form.get("tag_name"))
+
+        # Ensure there is no such tag name
+        if len(tags) == 1:
+            return apology("tag alredy exist", 400)
+
+        # Add new tag into the database
+        db.execute("INSERT INTO tags(tag_name, user_id) VALUES (:tag_name, :user_id)",
+                   tag_name = request.form.get("tag_name"), user_id = session["user_id"])
+
+        # Redirect user to tags page
+        return redirect("/tags")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("add-tag.html")
+
+
 @app.route("/add-todo", methods=["GET", "POST"])
 @login_required
 def add_todo():
