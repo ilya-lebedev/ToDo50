@@ -225,7 +225,12 @@ def register():
 @login_required
 def tags():
     """ Show tags of to-dos """
-    return apology("TODO")
+
+    # Query database for user tags
+    tags = db.execute("SELECT id, tag_name FROM tags WHERE user_id = :user_id",
+                      user_id = session["user_id"])
+
+    return render_template("tags.html", tags = tags)
 
 
 @app.route("/trash", methods=["GET"])
