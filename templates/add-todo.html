@@ -12,6 +12,15 @@
         <div class="form-group">
             <textarea class="form-control" id="description" name="description" placeholder="Description" rows="3"></textarea>
         </div>
+        <div class="form-group">
+            <legend class="col-form-label col-sm-2 pt-0">Tags</legend>
+            {% for tag in tags %}
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" name="tags" type="checkbox" id="tag{{ tag["id"] }}" value="{{ tag["id"] }}">
+                <label class="form-check-label" for="tag{{ tag["id"] }}">{{ tag["tag_name"] }}</label>
+            </div>
+            {% endfor %}
+        </div>
         <button class="btn btn-primary" type="submit">Add</button>
     </form>
 {% endblock %}

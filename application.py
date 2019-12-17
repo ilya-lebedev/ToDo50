@@ -80,16 +80,28 @@ def add_todo():
         if not request.form.get("title"):
             return apology("must provide title", 400)
 
+        # Get list of tags from form
+        tags = request.form.getlist("tags")
+
         # Add new todo into the database
-        db.execute("INSERT INTO todos(title, description, user_id) VALUES (:title, :description, :user_id)",
-                   title = request.form.get("title"), description = request.form.get("description"), user_id = session["user_id"])
+        todo_id = db.execute("INSERT INTO todos(title, description, user_id) VALUES (:title, :description, :user_id)",
+                    title = request.form.get("title"), description = request.form.get("description"), user_id = session["user_id"])
+
+        # Add tags for new todo into the database
+        for tag_id in tags:
+            db.execute("INSERT INTO todos_tags(todo_id, tag_id) VALUES (:todo_id, :tag_id)",
+                       todo_id = todo_id, tag_id = tag_id)
 
         # Redirect user to all todos page
         return redirect("/all")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("add-todo.html")
+        # Query database for user tags
+        tags = db.execute("SELECT id, tag_name FROM tags WHERE user_id = :user_id",
+                          user_id = session["user_id"])
+
+        return render_template("add-todo.html", tags = tags)
 
 
 @app.route("/all", methods=["GET"])
