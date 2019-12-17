@@ -10,6 +10,21 @@ hr {
     margin-bottom: 0;
 }
 
+.tag {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
 .tag-list {
     display: inline-block;
     padding: 0.35em 0.5em;
@@ -28,4 +43,9 @@ hr {
 .tag-secondary {
     color: #fff;
     background-color: #839496;
+}
+
+.tag-todos {
+    color: #fff;
+    background-color: #a9b2b3
 }

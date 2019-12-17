@@ -21,6 +21,13 @@
                                     {% endfor %}
                                 </p>
                             {% endif %}
+                            {% if todo["tags"]|length %}
+                                <div class="bs-component">
+                                    {% for tag in todo["tags"] %}
+                                        <a href="/todos/tag/{{ tag["id"] }}"><span class="tag tag-todos">{{ tag["tag_name"] }}</span></a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

@@ -113,6 +113,12 @@ def all():
     todos = db.execute("SELECT id, title, description FROM todos WHERE user_id = :user_id",
                        user_id = session["user_id"])
 
+    # Query database for tags of each todo
+    for todo in todos:
+        tags = db.execute("SELECT tags.id, tags.tag_name FROM todos_tags JOIN tags ON todos_tags.tag_id = tags.id WHERE todos_tags.todo_id = :todo_id",
+                          todo_id = todo["id"])
+        todo["tags"] = tags
+
     return render_template("all-todos.html", todos = todos)
 
 
