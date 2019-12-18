@@ -32,6 +32,30 @@ Session(app)
 db = SQL("sqlite:///todo.db")
 
 
+@app.route("/add-list", methods=["GET", "POST"])
+@login_required
+def add_list():
+    """ Add new list """
+
+    # User reached route via PODT (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure title was submitted
+        if not request.form.get("title"):
+            return apology("must provide title", 400)
+
+        # Add new list into the database
+        list_id = db.execute("INSERT INTO lists(title, description, user_id) VALUES (:title, :description, :user_id)",
+                    title = request.form.get("title"), description = request.form.get("description"), user_id = session["user_id"])
+
+        # Redirect user to lists page
+        return redirect("/lists")
+
+    # User reached route via GET (as by clicking a ling or via redirect)
+    else:
+        return render_template("add-list.html")
+
+
 @app.route("/add-tag", methods=["GET", "POST"])
 @login_required
 def add_tag():
