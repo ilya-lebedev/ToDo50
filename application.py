@@ -163,7 +163,11 @@ def index():
 @login_required
 def lists():
     """ Show lists of to-dos """
-    return apology("TODO")
+
+    lists = db.execute("SELECT id, title, description FROM lists WHERE user_id = :user_id",
+                       user_id = session["user_id"])
+
+    return render_template("lists.html", lists = lists)
 
 
 @app.route("/login", methods=["GET", "POST"])
