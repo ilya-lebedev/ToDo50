@@ -134,7 +134,7 @@ def all():
     """ Show all to-dos """
 
     # Query database for user todos
-    todos = db.execute("SELECT id, title, description FROM todos WHERE user_id = :user_id",
+    todos = db.execute("SELECT id, title, description, complete FROM todos WHERE user_id = :user_id",
                        user_id = session["user_id"])
 
     # Query database for tags of each todo
@@ -151,6 +151,17 @@ def all():
 def change_password():
     """ Show change password """
     return apology("TODO")
+
+
+@app.route("/complete", methods=["POST"])
+@login_required
+def complete():
+    """ Complete todo """
+
+    db.execute("UPDATE todos SET complete=1 WHERE id = :id AND user_id = :user_id",
+               id = request.form.get("todo-id"), user_id = session["user_id"])
+
+    return redirect("all")
 
 
 @app.route("/")

@@ -18,6 +18,10 @@ hr {
     text-decoration: none;
 }
 
+.btn-todo-complete {
+    cursor: default !important;
+}
+
 .card-title {
     margin-bottom: 0;
 }

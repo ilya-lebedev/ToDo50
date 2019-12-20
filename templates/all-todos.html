@@ -12,17 +12,28 @@
                     <div class="card text-white bg-secondary mb-3">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-auto mr-auto"><h4 class="card-title">{{ todo["title"] }}</h4></div>
+                                <div class="col-auto mr-auto">
+                                    <h4 class="card-title">{{ todo["title"] }}</h4>
+                                </div>
                                 <div class="col-auto">
-                                    <button class="btn btn-lg btn-todo">
-                                        <span class="fa fa-check"></span>
-                                    </button>
-                                    <button class="btn btn-lg btn-todo">
-                                        <span class="fa fa-pencil"></span>
-                                    </button>
-                                    <button class="btn btn-lg btn-todo">
-                                        <span class="fa fa-trash-o"></span>
-                                    </button>
+                                    <form method="post">
+                                        <input type="hidden" id="todo-id" name="todo-id" value="{{ todo["id"] }}">
+                                        {% if todo["complete"] %}
+                                            <button class="btn btn-lg btn-todo btn-todo-complete" disabled="disabled">
+                                                <span class="fa fa-check-square-o"></span>
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-lg btn-todo" type="submit" formaction="/complete">
+                                                <span class="fa fa-check"></span>
+                                            </button>
+                                        {% endif %}
+                                        <button class="btn btn-lg btn-todo">
+                                            <span class="fa fa-pencil"></span>
+                                        </button>
+                                        <button class="btn btn-lg btn-todo">
+                                            <span class="fa fa-trash-o"></span>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                             {% if todo["description"] is defined and todo["description"]|length %}
