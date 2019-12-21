@@ -308,7 +308,13 @@ def trash():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return apology("TODO")
+        # Show all todos in trash for user
+
+        # Query database for user todos
+        todos = db.execute("SELECT id, title, description, complete, trash FROM todos WHERE user_id = :user_id AND trash = 1",
+                           user_id = session["user_id"])
+
+        return render_template("all-todos.html", todos = todos)
 
 
 def errorhandler(e):
