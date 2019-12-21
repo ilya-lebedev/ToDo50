@@ -134,7 +134,7 @@ def all():
     """ Show all to-dos """
 
     # Query database for user todos
-    todos = db.execute("SELECT id, title, description, complete FROM todos WHERE user_id = :user_id",
+    todos = db.execute("SELECT id, title, description, complete, trash FROM todos WHERE user_id = :user_id",
                        user_id = session["user_id"])
 
     # Query database for tags of each todo
@@ -290,11 +290,25 @@ def tags():
     return render_template("tags.html", tags = tags)
 
 
-@app.route("/trash", methods=["GET"])
+@app.route("/trash", methods=["GET", "POST"])
 @login_required
 def trash():
-    """ Show trash """
-    return apology("TODO")
+    """ Todos trash """
+
+    # User reached route via POST (as by submitting a form via POST)
+    if (request.method == "POST"):
+        # Put todo to the trash
+
+        # Query database for putting todo into trash
+        db.execute("UPDATE todos SET trash = 1 WHERE id = :id AND user_id = :user_id",
+                   id = request.form.get("todo-id"), user_id = session["user_id"])
+
+        # Redirect user to all to-dos page
+        return redirect("/all")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return apology("TODO")
 
 
 def errorhandler(e):

@@ -9,7 +9,11 @@
         <div class="col-lg-8">
             <div class="bs-component">
                 {% for todo in todos %}
+                    {% if todo["trash"] %}
+                    <div class="card text-white bg-secondary todo-trash mb-3">
+                    {% else %}
                     <div class="card text-white bg-secondary mb-3">
+                    {% endif %}
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-auto mr-auto">
@@ -30,9 +34,15 @@
                                         <button class="btn btn-lg btn-todo">
                                             <span class="fa fa-pencil"></span>
                                         </button>
-                                        <button class="btn btn-lg btn-todo">
-                                            <span class="fa fa-trash-o"></span>
-                                        </button>
+                                        {% if todo["trash"] %}
+                                            <button class="btn btn-lg btn-todo">
+                                                <span class="fa fa-undo"></span>
+                                            </button>
+                                        {% else %}
+                                            <button class="btn btn-lg btn-todo" type="submit" formaction="/trash">
+                                                <span class="fa fa-trash-o"></span>
+                                            </button>
+                                        {% endif %}
                                     </form>
                                 </div>
                             </div>

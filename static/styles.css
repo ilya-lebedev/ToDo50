@@ -65,3 +65,8 @@ hr {
     color: #fff;
     background-color: #a9b2b3
 }
+
+.todo-trash h4,
+.todo-trash p {
+    text-decoration: line-through;
+}
