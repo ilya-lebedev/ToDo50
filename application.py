@@ -239,8 +239,13 @@ def login():
 @app.route("/logout", methods=["GET"])
 @login_required
 def logout():
-    """ Show logout """
-    return apology("TODO")
+    """ Log user out """
+
+    # Forget any user id
+    session.clear()
+
+    # Redirect user to the main page
+    return redirect("/")
 
 
 @app.route("/register", methods=["GET", "POST"])
