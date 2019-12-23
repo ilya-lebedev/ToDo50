@@ -164,11 +164,48 @@ def all():
     return render_template("all-todos.html", todos = todos)
 
 
-@app.route("/change-password", methods=["GET"])
+@app.route("/change-password", methods=["GET", "POST"])
 @login_required
 def change_password():
-    """ Show change password """
-    return apology("TODO")
+    """ Change user password """
+
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+
+        # Ensure old password was submitted
+        if not request.form.get("old-password"):
+            return apology("must provide old password", 400)
+
+        # Query database for old user password
+        users = db.execute("SELECT hash FROM users WHERE id = :id",
+                           id = session["user_id"])
+
+        # Ensure old password is correct
+        if not check_password_hash(users[0]["hash"], request.form.get("old-password")):
+            return apology("invalid old password", 400)
+
+        # Ensure new password was submitted
+        if not request.form.get("new-password"):
+            return apology("must provide new password", 400)
+
+        # Ensure confirmation was submitted
+        if not request.form.get("confirmation"):
+            return apology("must provide confirmation", 400)
+
+        # Ensure new password and confirmation equal
+        if not request.form.get("new-password") == request.form.get("confirmation"):
+            return apology("password doesn't match", 400)
+
+        # Query database for update hash
+        db.execute("UPDATE users SET hash = :hash WHERE id = :id",
+                   hash = generate_password_hash(request.form.get("new-password")), id = session["user_id"])
+
+        # Redirect user
+        return redirect("/change-password")
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return render_template("change-password.html")
 
 
 @app.route("/complete", methods=["POST"])
