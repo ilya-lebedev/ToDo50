@@ -5,22 +5,26 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/add-todo" method="post">
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="title" placeholder="Title" type="text">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form action="/add-todo" method="post">
+                <div class="form-group">
+                    <input autocomplete="off" autofocus class="form-control" name="title" placeholder="Title" type="text">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="description" name="description" placeholder="Description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <legend class="col-form-label col-sm-2 pt-0">Tags</legend>
+                    {% for tag in tags %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" name="tags" type="checkbox" id="tag{{ tag["id"] }}" value="{{ tag["id"] }}">
+                        <label class="form-check-label" for="tag{{ tag["id"] }}">{{ tag["tag_name"] }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="btn btn-primary" type="submit">Add</button>
+            </form>
         </div>
-        <div class="form-group">
-            <textarea class="form-control" id="description" name="description" placeholder="Description" rows="3"></textarea>
-        </div>
-        <div class="form-group">
-            <legend class="col-form-label col-sm-2 pt-0">Tags</legend>
-            {% for tag in tags %}
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" name="tags" type="checkbox" id="tag{{ tag["id"] }}" value="{{ tag["id"] }}">
-                <label class="form-check-label" for="tag{{ tag["id"] }}">{{ tag["tag_name"] }}</label>
-            </div>
-            {% endfor %}
-        </div>
-        <button class="btn btn-primary" type="submit">Add</button>
-    </form>
+    </div>
 {% endblock %}
