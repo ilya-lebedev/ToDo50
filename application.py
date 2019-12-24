@@ -1,5 +1,5 @@
 from cs50 import SQL
-from flask import Flask, redirect, render_template, request, session
+from flask import Flask, jsonify, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -206,6 +206,28 @@ def change_password():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return render_template("change-password.html")
+
+
+@app.route("/check-username", methods=["GET"])
+def check():
+    """ Check username """
+    """ Return true if username available, else false, in JSON format """
+
+    # Get username
+    username = request.args.get("username").strip()
+
+    # Ensure username not empty
+    if len(username) < 1:
+        return jsonify(False)
+
+    # Query database for username
+    users = db.execute("SELECT id FROM users WHERE username = :username",
+                       username = username)
+
+    if len(users) > 0:
+        return jsonify(False)
+    else:
+        return jsonify(True)
 
 
 @app.route("/complete", methods=["POST"])

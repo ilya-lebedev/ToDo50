@@ -7,7 +7,7 @@
 {% block main %}
     <div class="row justify-content-center">
         <div class="col-6">
-            <form action="/register" method="post">
+            <form action="/register" method="post" id="form-register">
                 <div class="form-group">
                     <input autocomplete="off" autofocus class="form-control" id="email" name="email" placeholder="E-mail" type="text">
                 </div>
@@ -24,4 +24,19 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById("register-button").addEventListener("click", function(event){
+            event.preventDefault();
+            $.get( "check-username", { username: $("#username").val() } )
+                .done(function( data ) {
+                    if (data) {
+                        document.getElementById("form-register").submit();
+                    } else {
+                        alert( "Username is not available" );
+                    }
+                });
+        });
+    </script>
+
 {% endblock %}
