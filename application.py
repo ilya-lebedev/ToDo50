@@ -399,6 +399,24 @@ def trash():
         return render_template("all-todos.html", todos = todos)
 
 
+@app.route("/todos/tag/<tag_id>", methods=["GET"])
+@login_required
+def todos_by_tag(tag_id):
+    """ Show todos by tag """
+
+    # Query database for todos by tag
+    todos = db.execute("SELECT todos.id, todos.title, todos.description, todos.complete, todos.trash FROM todos JOIN todos_tags ON todos.id = todos_tags.todo_id WHERE todos.user_id = :user_id AND todos_tags.tag_id = :tag_id",
+                       user_id = session["user_id"], tag_id = tag_id)
+
+    # Query database for tags of each todo
+    for todo in todos:
+        tags = db.execute("SELECT tags.id, tags.tag_name FROM todos_tags JOIN tags ON todos_tags.tag_id = tags.id WHERE todos_tags.todo_id = :todo_id",
+                          todo_id = todo["id"])
+        todo["tags"] = tags
+
+    return render_template("all-todos.html", todos = todos)
+
+
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
