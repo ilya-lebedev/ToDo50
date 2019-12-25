@@ -126,8 +126,8 @@ def add_todo():
         tags = request.form.getlist("tags")
 
         # Add new todo into the database
-        todo_id = db.execute("INSERT INTO todos(title, description, user_id) VALUES (:title, :description, :user_id)",
-                    title = request.form.get("title"), description = request.form.get("description"), user_id = session["user_id"])
+        todo_id = db.execute("INSERT INTO todos(title, description, user_id, list_id) VALUES (:title, :description, :user_id, :list_id)",
+                    title = request.form.get("title"), description = request.form.get("description"), user_id = session["user_id"], list_id = request.form.get("list_id"))
 
         # Add tags for new todo into the database
         for tag_id in tags:
@@ -143,7 +143,11 @@ def add_todo():
         tags = db.execute("SELECT id, tag_name FROM tags WHERE user_id = :user_id",
                           user_id = session["user_id"])
 
-        return render_template("add-todo.html", tags = tags)
+        # Query database for user lists
+        lists = db.execute("SELECT id, title FROM lists WHERE user_id = :user_id",
+                           user_id = session["user_id"])
+
+        return render_template("add-todo.html", tags = tags, lists = lists)
 
 
 @app.route("/all", methods=["GET"])
