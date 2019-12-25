@@ -70,3 +70,21 @@ hr {
 .todo-trash p {
     text-decoration: line-through;
 }
+
+.todo-list-link {
+    color: #24716b;
+}
+
+.todo-list-link:hover {
+    color: #76daea;
+    text-decoration: none;
+}
+
+.list-header-link {
+    color: #ffffff;
+}
+
+.list-header-link:hover {
+    color: #76daea;
+    text-decoration: none;
+}

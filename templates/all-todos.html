@@ -18,6 +18,9 @@
                             <div class="row">
                                 <div class="col-auto mr-auto">
                                     <h4 class="card-title">{{ todo["title"] }}</h4>
+                                    {% if not todo["list_title"] == None %}
+                                    <h6 class="card-title"><a class="todo-list-link" href="/todos/list/{{ todo["list_id"] }}">{{ todo["list_title"] }}</a></h6>
+                                    {% endif %}
                                 </div>
                                 <div class="col-auto">
                                     <form method="post">
