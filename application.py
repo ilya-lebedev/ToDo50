@@ -421,6 +421,24 @@ def todos_by_tag(tag_id):
     return render_template("all-todos.html", todos = todos)
 
 
+@app.route("/todos/list/<list_id>", methods=["GET"])
+@login_required
+def todos_from_list(list_id):
+    """ Show todos from list """
+
+    # Query database for todos from list
+    todos = db.execute("SELECT todos.id, todos.title, todos.description, complete, trash, list_id, lists.title AS list_title FROM todos LEFT JOIN lists ON list_id = lists.id WHERE todos.user_id = :user_id AND list_id = :list_id",
+                       user_id = session["user_id"], list_id = list_id)
+
+    # Query database for tags of each todo
+    for todo in todos:
+        tags = db.execute("SELECT tags.id, tags.tag_name FROM todos_tags JOIN tags ON todos_tags.tag_id = tags.id WHERE todos_tags.todo_id = :todo_id",
+                          todo_id = todo["id"])
+        todo["tags"] = tags
+
+    return render_template("all-todos.html", todos = todos)
+
+
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
