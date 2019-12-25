@@ -10,7 +10,7 @@
             <div class="bs-component">
                 {% for list in lists %}
                     <div class="card text-white bg-secondary mb-3">
-                        <a href="/todos/list/" class="list-header-link"><div class="card-header">{{ list["title"] }}</div></a>
+                        <a href="/todos/list/{{ list["id"] }}" class="list-header-link"><div class="card-header">{{ list["title"] }}</div></a>
                         <div class="card-body">
                             <p class="card-text">{{ list["description"] }}</p>
                         </div>
