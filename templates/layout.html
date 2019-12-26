@@ -35,17 +35,29 @@
             <div class="collapse navbar-collapse" id="navbar">
                 {% if session.user_id %}
                     <ul class="navbar-nav mr-auto mt-2">
-                        <li class="nav-item"><a class="nav-link" href="/all">All</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/active">Active Todos</a></li>
                         <li class="nav-item"><a class="nav-link" href="/lists">Lists</a></li>
                         <li class="nav-item"><a class="nav-link" href="/tags">Tags</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/trash">Trash</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Todos</a>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item" href="/all">All</a>
+                                <a class="dropdown-item" href="/completed">Completed</a>
+                                <a class="dropdown-item" href="/trash">Trash</a>
+                            </div>
+                        </li>
                     </ul>
                     <ul class="navbar-nav ml-auto mt-2">
                         <li class="nav-item"><a class="nav-link" href="/add-list">Add list</a></li>
                         <li class="nav-item"><a class="nav-link" href="/add-todo">Add todo</a></li>
                         <li class="nav-item"><a class="nav-link" href="/add-tag">Add tag</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/change-password">Change password</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">User</a>
+                            <div class="dropdown-menu dropdown-menu-right" style="">
+                                <a class="dropdown-item" href="/change-password">Change password</a>
+                                <a class="dropdown-item" href="/logout">Log Out</a>
+                            </div>
+                        </li>
                     </ul>
                 {% else %}
                     <ul class="navbar-nav ml-auto mt-2">
