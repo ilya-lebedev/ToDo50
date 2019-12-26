@@ -38,7 +38,7 @@ def active():
     """ Show active todos to user """
 
     # Query database for active todos of user
-    todos = db.execute("SELECT id, title, description, complete, trash FROM todos WHERE user_id = :user_id AND complete = 0 AND trash = 0",
+    todos = db.execute("SELECT todos.id, todos.title, todos.description, complete, trash, list_id, lists.title AS list_title FROM todos LEFT JOIN lists ON list_id = lists.id WHERE todos.user_id = :user_id AND complete = 0 AND trash = 0",
                        user_id = session["user_id"])
 
     # Query database for tags of each todo
