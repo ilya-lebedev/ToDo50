@@ -49,8 +49,10 @@
                                     </form>
                                 </div>
                             </div>
-                            {% if todo["description"] is defined and todo["description"]|length %}
+                            {% if (todo["description"] is defined and todo["description"]|length) or (todo["tags"]|length) %}
                                 <hr>
+                            {% endif %}
+                            {% if todo["description"] is defined and todo["description"]|length %}
                                 <p class="card-text">
                                     {% set lines = todo["description"].split('\n') %}
                                     {% for line in lines %}
