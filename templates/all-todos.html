@@ -30,13 +30,19 @@
                                                 <span class="fa fa-check-square-o"></span>
                                             </button>
                                         {% else %}
+                                            {% if todo["trash"] %}
+                                            <button class="btn btn-lg btn-todo" type="submit" disabled="disabled">
+                                            {% else %}
                                             <button class="btn btn-lg btn-todo" type="submit" formaction="/complete">
+                                            {% endif %}
                                                 <span class="fa fa-check"></span>
                                             </button>
                                         {% endif %}
+                                        {% if not todo["trash"] and not todo["complete"] %}
                                         <button class="btn btn-lg btn-todo">
                                             <span class="fa fa-pencil"></span>
                                         </button>
+                                        {% endif %}
                                         {% if todo["trash"] %}
                                             <button class="btn btn-lg btn-todo">
                                                 <span class="fa fa-undo"></span>
