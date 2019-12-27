@@ -135,7 +135,7 @@ def add_todo():
                        todo_id = todo_id, tag_id = tag_id)
 
         # Redirect user to all todos page
-        return redirect("/all")
+        return redirect("/active")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -242,7 +242,7 @@ def complete():
     db.execute("UPDATE todos SET complete=1 WHERE id = :id AND user_id = :user_id",
                id = request.form.get("todo-id"), user_id = session["user_id"])
 
-    return redirect("all")
+    return redirect("active")
 
 
 @app.route("/")
@@ -292,7 +292,7 @@ def login():
         session["user_id"] = user[0]["id"]
 
         # Redirect user to all to-dos page
-        return redirect("/all")
+        return redirect("/active")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -357,7 +357,7 @@ def register():
         session["user_id"] = user_id
 
         # Redirect user to all to-dos page
-        return redirect("/all")
+        return redirect("/active")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
@@ -390,7 +390,7 @@ def trash():
                    id = request.form.get("todo-id"), user_id = session["user_id"])
 
         # Redirect user to all to-dos page
-        return redirect("/all")
+        return redirect("/active")
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
