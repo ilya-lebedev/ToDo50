@@ -290,6 +290,7 @@ def login():
 
         # Remember which user has loggedin
         session["user_id"] = user[0]["id"]
+        session["user_name"] = user[0]["username"]
 
         # Redirect user to all to-dos page
         return redirect("/active")
@@ -355,6 +356,7 @@ def register():
 
         # Remember which user has registered and logged in
         session["user_id"] = user_id
+        session["user_name"] = request.form.get("username")
 
         # Redirect user to all to-dos page
         return redirect("/active")
