@@ -245,6 +245,24 @@ def complete():
     return redirect("active")
 
 
+@app.route("/completed", methods=["GET"])
+@login_required
+def completed():
+    """ Show completed todos to user """
+
+    # Query database for completed todos of user
+    todos = db.execute("SELECT todos.id, todos.title, todos.description, complete, trash, list_id, lists.title AS list_title FROM todos LEFT JOIN lists ON list_id = lists.id WHERE todos.user_id = :user_id AND complete = 1 AND trash = 0",
+                       user_id = session["user_id"])
+
+    # Query database for tags of each todo
+    for todo in todos:
+        tags = db.execute("SELECT tags.id, tags.tag_name FROM todos_tags JOIN tags ON todos_tags.tag_id = tags.id WHERE todos_tags.todo_id = :todo_id",
+                          todo_id = todo["id"])
+        todo["tags"] = tags
+
+    return render_template("all-todos.html", todos = todos)
+
+
 @app.route("/")
 def index():
     """ Show main page """
