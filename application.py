@@ -459,6 +459,18 @@ def todos_from_list(list_id):
     return render_template("all-todos.html", todos = todos)
 
 
+@app.route("/undo-trash", methods=["POST"])
+@login_required
+def undo_trash():
+    """ Return todo from the trash """
+
+    # Query database for returning todo from the trash
+    db.execute("UPDATE todos SET trash = 0 WHERE id = :id AND user_id = :user_id",
+               id = request.form.get("todo-id"), user_id = session["user_id"])
+
+    return redirect("/active")
+
+
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
