@@ -7,6 +7,16 @@
 {% block main %}
     <div class="row justify-content-md-center">
         <div class="col-lg-8">
+            {% if url_for(request.endpoint) == "/active" %}
+            <h3>Active Todos</h3>
+            {% elif url_for(request.endpoint) == "/all" %}
+            <h3>All Todos</h3>
+            {% elif url_for(request.endpoint) == "/completed" %}
+            <h3>Completed Todos</h3>
+            {% elif url_for(request.endpoint) == "/trash" %}
+            <h3>Trash</h3>
+            {% endif %}
+
             <div class="bs-component">
                 {% for todo in todos %}
                     {% if todo["trash"] %}
